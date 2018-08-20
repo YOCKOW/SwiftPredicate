@@ -21,7 +21,7 @@ extension Sequence {
     return self.first(where:{ predicate.evaluate(with:$0) })
   }
   
-  #if swift(>=4.2)
+  #if swift(>=4.1.50)
   #else
   public func allSatisfy(_ predicate:(Element) throws -> Bool) rethrows -> Bool {
     for element in self {

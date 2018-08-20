@@ -7,7 +7,7 @@
  
  
 extension BidirectionalCollection {
-  #if swift(>=4.2)
+  #if swift(>=4.1.50)
   #else
   public func lastIndex(where predicate: (Element) throws -> Bool) rethrows -> Index? {
     var ii = self.endIndex
