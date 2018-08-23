@@ -31,12 +31,27 @@ struct SimplePredicate<Variable>: PredicateProtocol {
   }
 }
 
-let predicate = SimplePredicate<Int>({ $0 == 0 })
-print(predicate.evaluate(with:0)) // Prints "true"
-print(predicate.evaluate(with:1)) // Prints "false"
+let lessThan10 = SimplePredicate<Int>({ $0 < 10 })
+let greaterThan0 = SimplePredicate<Int>({ $0 > 0 })
+
+// `PredicateProtocol` provides some operations like below:
+
+print(lessThan10.and(greaterThan0).evaluate(with:5)) // Prints "true" 
+print(lessThan10.and(greaterThan0).evaluate(with:-5)) // Prints "false"
+
+print(lessThan10.or(greaterThan0).evaluate(with:15)) // Prints "true" 
+
+print(lessThan10.xor(greaterThan0).evaluate(with:-5)) // Prints "true" 
+print(lessThan10.xor(greaterThan0).evaluate(with:5)) // Prints "false"
 ```
 
 ## A set defined by a predicate
+
+There is also a set named "TotallyOrderedSet<Element>" that conforms to `SetAlgebra`
+and `ConsolidatablePredicate` (that inherits from `PredicateProtocol`).
+You can define elements contained by the set using ranges.
+(See [SwiftRanges](https://github.com/YOCKOW/SwiftRanges) if you want to know what 
+ `AnyRange` is.)
 
 ```Swift
 import Predicate
@@ -47,6 +62,7 @@ let set1 = TotallyOrderedSet<Double>(elementsIn:[
   AnyRange<Double>(1.0...2.0),
   AnyRange<Double>(3.0<..)
 ])
+
 let set2 = TotallyOrderedSet<Double>(elementsIn:[
   AnyRange<Double>((-2.0)<..(-1.0)),
   AnyRange<Double>(0.5..<1.5),

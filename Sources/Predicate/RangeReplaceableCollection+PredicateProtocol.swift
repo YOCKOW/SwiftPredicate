@@ -13,7 +13,7 @@ extension RangeReplaceableCollection {
     return self.filter({ predicate.evaluate(with:$0) })
   }
   
-  #if swift(>=4.2)
+  #if swift(>=4.1.50)
   #else
   public mutating func removeAll(where predicate: (Element) throws -> Bool) rethrows {
     self = try self.filter({ try !predicate($0) })
