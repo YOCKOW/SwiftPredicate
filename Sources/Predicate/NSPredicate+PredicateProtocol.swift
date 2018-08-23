@@ -12,23 +12,56 @@ extension NSPredicate: PredicateProtocol {
 }
 
 extension ConsolidatablePredicate where Self: NSCompoundPredicate {
+  #if os(Linux)
+  // I know this is a kind of bad workaround.
+  fileprivate func _convert(_ predicate:NSCompoundPredicate) -> Self {
+    guard case let obj as Self = predicate else {
+      fatalError("Not supported for subclasses of `NSCompoundPredicate`.")
+    }
+    return obj
+  }
+  #endif
+  
   /// Negates the receiver.
   public mutating func negate() {
     let copied = self.copy() as! Self
+    #if os(Linux)
+    self = self._convert(NSCompoundPredicate(notPredicateWithSubpredicate:copied))
+    #else
     self = type(of:self).init(notPredicateWithSubpredicate:copied)
+    #endif
   }
 }
 
 extension NSCompoundPredicate: ConsolidatablePredicate {
   public func isEqual<P>(to other:P) -> Bool where P: EquatablePredicate {
+    #if os(Linux)
+    return self.isEqual(other as Any?)
+    #else
     return self.isEqual(to:other as Any?)
+    #endif
   }
   
   public var negated: NSCompoundPredicate {
     let copied = self.copy() as! NSCompoundPredicate
     return NSCompoundPredicate(notPredicateWithSubpredicate:copied)
   }
+}
+
+#if os(Linux)
+extension ConsolidatablePredicate where Self: NSCompoundPredicate {
+  public func and(_ other:Self) -> Self {
+    let compound = NSCompoundPredicate(andPredicateWithSubpredicates:[self, other])
+    return self._convert(compound)
+  }
   
+  public func or(_ other:Self) -> Self {
+    let compound = NSCompoundPredicate(orPredicateWithSubpredicates:[self, other])
+    return self._convert(compound)
+  }
+}
+#else
+extension NSCompoundPredicate: ConsolidatablePredicate {
   public func and(_ other:NSCompoundPredicate) -> Self {
     return type(of:self).init(andPredicateWithSubpredicates:[self, other])
   }
@@ -37,6 +70,7 @@ extension NSCompoundPredicate: ConsolidatablePredicate {
     return type(of:self).init(orPredicateWithSubpredicates:[self, other])
   }
 }
+#endif
 
 extension NSCompoundPredicate {
   public convenience init(consolidating predicates:PredicateBinaryOperation<NSPredicate, NSPredicate>) {
