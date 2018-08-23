@@ -34,6 +34,8 @@ struct SimplePredicate<Variable>: PredicateProtocol {
 let lessThan10 = SimplePredicate<Int>({ $0 < 10 })
 let greaterThan0 = SimplePredicate<Int>({ $0 > 0 })
 
+// `PredicateProtocol` provides some operations like below:
+
 print(lessThan10.and(greaterThan0).evaluate(with:5)) // Prints "true" 
 print(lessThan10.and(greaterThan0).evaluate(with:-5)) // Prints "false"
 
