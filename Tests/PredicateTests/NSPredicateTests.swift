@@ -12,6 +12,12 @@ import Foundation
 
 final class NSPredicateTests: XCTestCase {
   func testConsolidation() {
+    #if os(Linux)
+    
+    // NSPredicate on Linux is useless.
+    
+    #else
+    
     let firstNameKey = "FirstName"
     let familyNameKey = "FamilyName"
     
@@ -94,6 +100,8 @@ final class NSPredicateTests: XCTestCase {
     XCTAssertEqual(countResults(extractedGoroXnorTanaka, firstNameKey, saburo), 2)
     XCTAssertEqual(countResults(extractedGoroXnorTanaka, firstNameKey, shiro), 2)
     XCTAssertEqual(countResults(extractedGoroXnorTanaka, firstNameKey, goro), 1)
+    
+    #endif
   }
   
   
