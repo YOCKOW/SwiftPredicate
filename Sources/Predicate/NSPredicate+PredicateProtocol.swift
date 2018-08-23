@@ -31,6 +31,18 @@ extension ConsolidatablePredicate where Self: NSCompoundPredicate {
     self = type(of:self).init(notPredicateWithSubpredicate:copied)
     #endif
   }
+  
+  #if os(Linux)
+  public func and(_ other:Self) -> Self {
+    let compound = NSCompoundPredicate(andPredicateWithSubpredicates:[self, other])
+    return self._convert(compound)
+  }
+  
+  public func or(_ other:Self) -> Self {
+    let compound = NSCompoundPredicate(orPredicateWithSubpredicates:[self, other])
+    return self._convert(compound)
+  }
+  #endif
 }
 
 extension NSCompoundPredicate: ConsolidatablePredicate {
@@ -46,22 +58,8 @@ extension NSCompoundPredicate: ConsolidatablePredicate {
     let copied = self.copy() as! NSCompoundPredicate
     return NSCompoundPredicate(notPredicateWithSubpredicate:copied)
   }
-}
-
-#if os(Linux)
-extension ConsolidatablePredicate where Self: NSCompoundPredicate {
-  public func and(_ other:Self) -> Self {
-    let compound = NSCompoundPredicate(andPredicateWithSubpredicates:[self, other])
-    return self._convert(compound)
-  }
   
-  public func or(_ other:Self) -> Self {
-    let compound = NSCompoundPredicate(orPredicateWithSubpredicates:[self, other])
-    return self._convert(compound)
-  }
-}
-#else
-extension NSCompoundPredicate: ConsolidatablePredicate {
+  #if !os(Linux)
   public func and(_ other:NSCompoundPredicate) -> Self {
     return type(of:self).init(andPredicateWithSubpredicates:[self, other])
   }
@@ -69,8 +67,8 @@ extension NSCompoundPredicate: ConsolidatablePredicate {
   public func or(_ other: NSCompoundPredicate) -> Self {
     return type(of:self).init(orPredicateWithSubpredicates:[self, other])
   }
+  #endif
 }
-#endif
 
 extension NSCompoundPredicate {
   public convenience init(consolidating predicates:PredicateBinaryOperation<NSPredicate, NSPredicate>) {
