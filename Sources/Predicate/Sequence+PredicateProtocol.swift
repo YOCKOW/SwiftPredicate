@@ -1,6 +1,6 @@
 /***************************************************************************************************
  Sequence+PredicateProtocol.swift
-   © 2018 YOCKOW.
+   © 2018-2019 YOCKOW.
      Licensed under MIT License.
      See "LICENSE.txt" for more information.
  **************************************************************************************************/
@@ -41,7 +41,7 @@ extension Sequence {
   
   /// Returns a subsequence by skipping elements while predicate returns true
   /// and returning the remaining elements.
-  public func drop<Predicate>(while predicate:Predicate) -> SubSequence
+  public func drop<Predicate>(while predicate:Predicate) -> DropWhileSequence<Self>
     where Predicate:PredicateProtocol, Predicate.Variable == Element
   {
     return self.drop(while:{ predicate.evaluate(with:$0) })
@@ -57,7 +57,7 @@ extension Sequence {
   
   /// Returns a subsequence containing the initial, consecutive elements that
   /// satisfy the given predicate.
-  public func prefix<Predicate>(while predicate:Predicate) -> SubSequence
+  public func prefix<Predicate>(while predicate:Predicate) -> [Element]
     where Predicate:PredicateProtocol, Predicate.Variable == Element
   {
     return self.prefix(while:{ predicate.evaluate(with:$0) })

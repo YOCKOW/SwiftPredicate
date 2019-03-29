@@ -1,6 +1,6 @@
 /***************************************************************************************************
  PredicateBinaryOperation+EquatablePredicate.swift
-   © 2018 YOCKOW.
+   © 2018-2019 YOCKOW.
      Licensed under MIT License.
      See "LICENSE.txt" for more information.
  **************************************************************************************************/
@@ -24,7 +24,7 @@ private func _commutativelyEqual<P,Q,R,S>(_ lhs:(P,Q), _ rhs:(R,S)) -> Bool
 private func _predicates_ifSameOperation<P,Q,R,S>(_ lhs:PredicateBinaryOperation<P,Q>,
                                                   _ rhs:PredicateBinaryOperation<R,S>) -> ((P,Q), (R,S))?
   where P:EquatablePredicate, Q:EquatablePredicate, R:EquatablePredicate, S:EquatablePredicate,
-        P.Variable == Q.Variable, P.Variable == R.Variable, P.Variable == S.Variable
+        P.Variable == Q.Variable, P.Variable == R.Variable
 {
   switch (lhs, rhs) {
   case (.conjunction(let lPredicates), .conjunction(let rPredicates)):
@@ -45,7 +45,7 @@ private func _predicates_ifSameOperation<P,Q,R,S>(_ lhs:PredicateBinaryOperation
 private func _isEqual<P,Q,R,S>(_ lhs:PredicateBinaryOperation<P,Q>,
                                _ rhs:PredicateBinaryOperation<R,S>) -> Bool
   where P:EquatablePredicate, Q:EquatablePredicate, R:EquatablePredicate, S:EquatablePredicate,
-        P.Variable == Q.Variable, P.Variable == R.Variable, P.Variable == S.Variable
+        P.Variable == Q.Variable, P.Variable == R.Variable
 {
   guard let predicates = _predicates_ifSameOperation(lhs, rhs) else { return false }
   if case .materialImplication = lhs {
@@ -76,7 +76,7 @@ extension PredicateBinaryOperation: Equatable, EquatablePredicate
   /// Although this funciton is not required, it may be neccessary in some cases.
   public static func ==<R,S>(lhs:PredicateBinaryOperation<P,Q>, rhs:PredicateBinaryOperation<R,S>) -> Bool
     where R:EquatablePredicate, S:EquatablePredicate,
-          P.Variable == R.Variable, P.Variable == S.Variable
+          P.Variable == R.Variable
   {
     return _isEqual(lhs, rhs)
   }

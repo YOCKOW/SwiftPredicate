@@ -1,4 +1,4 @@
-// swift-tools-version:4.1
+// swift-tools-version:5.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -12,7 +12,7 @@ let package = Package(
   dependencies: [
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0"),
-    .package(url:"https://github.com/YOCKOW/SwiftRanges", from: "1.3.2"),
+    .package(url:"https://github.com/YOCKOW/SwiftRanges", from: "2.0.0"),
   ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -20,6 +20,7 @@ let package = Package(
     .target(name: "Predicate", dependencies: ["SwiftRanges"]),
     .target(name: "PredicateTestSupporters", dependencies: ["Predicate"]),
     .testTarget(name: "PredicateTests", dependencies: ["Predicate", "PredicateTestSupporters"]),
-  ]
+  ],
+  swiftLanguageVersions: [.v4, .v4_2, .v5]
 )
 

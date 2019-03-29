@@ -1,6 +1,6 @@
 /* *************************************************************************************************
  TotallyOrderedSetTests.swift
-   © 2018 YOCKOW.
+   © 2018-2019 YOCKOW.
      Licensed under MIT License.
      See "LICENSE.txt" for more information.
  ************************************************************************************************ */
@@ -20,7 +20,7 @@ final class TotallyOrderedSetTests: XCTestCase {
     let set2 = TotallyOrderedSet<Double>(elementsIn:[
       AnyRange<Double>((-2.0)<..(-1.0)),
       AnyRange<Double>(0.5..<1.5),
-      AnyRange<Double>(2.0<.<3.5)
+      AnyRange<Double>(2.0<..<3.5)
     ])
     
     XCTAssertTrue(set1.contains(-Double.infinity))
@@ -38,7 +38,7 @@ final class TotallyOrderedSetTests: XCTestCase {
                    TotallyOrderedSet<Double>(elementsIn:[
                      AnyRange<Double>((-2.0)<..(-1.0)),
                      AnyRange<Double>(1.0..<1.5),
-                     AnyRange<Double>(3.0<.<3.5),
+                     AnyRange<Double>(3.0<..<3.5),
                    ]))
     
     XCTAssertEqual(set1.union(set2),
@@ -50,7 +50,7 @@ final class TotallyOrderedSetTests: XCTestCase {
     XCTAssertEqual(set1.symmetricDifference(set2),
                    TotallyOrderedSet<Double>(elementsIn:[
                     AnyRange<Double>(...(-2.0)),
-                    AnyRange<Double>((-1.0)<.<0.0),
+                    AnyRange<Double>((-1.0)<..<0.0),
                     AnyRange<Double>(0.5..<1.0),
                     AnyRange<Double>(1.5...3.0),
                     AnyRange<Double>(3.5...),
