@@ -5,7 +5,7 @@ with this library.
 
 # Requirements
 
-- Swift 4.1, 4.2
+- Swift 5 (Also OK is compatibility mode for Swift 4 or 4.2)
 - macOS or Linux
 
 ## Dependency
@@ -66,7 +66,7 @@ let set1 = TotallyOrderedSet<Double>(elementsIn:[
 let set2 = TotallyOrderedSet<Double>(elementsIn:[
   AnyRange<Double>((-2.0)<..(-1.0)),
   AnyRange<Double>(0.5..<1.5),
-  AnyRange<Double>(2.0<.<3.5)
+  AnyRange<Double>(2.0<..<3.5)
 ])
 
 print(set1.inverted ==
@@ -81,7 +81,7 @@ print(set1.intersection(set2) ==
       TotallyOrderedSet<Double>(elementsIn:[
         AnyRange<Double>((-2.0)<..(-1.0)),
         AnyRange<Double>(1.0..<1.5),
-        AnyRange<Double>(3.0<.<3.5),
+        AnyRange<Double>(3.0<..<3.5),
       ])
      )
 // Prints "true"
