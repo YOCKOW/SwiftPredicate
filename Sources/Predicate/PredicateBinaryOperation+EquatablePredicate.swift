@@ -27,16 +27,12 @@ private func _predicates_ifSameOperation<P,Q,R,S>(_ lhs:PredicateBinaryOperation
         P.Variable == Q.Variable, P.Variable == R.Variable
 {
   switch (lhs, rhs) {
-  case (.conjunction(let lPredicates), .conjunction(let rPredicates)):
-    return (lPredicates, rPredicates)
-  case (.disjunction(let lPredicates), .disjunction(let rPredicates)):
-    return (lPredicates, rPredicates)
-  case (.exclusiveDisjunction(let lPredicates), .exclusiveDisjunction(let rPredicates)):
-    return (lPredicates, rPredicates)
-  case (.equivalence(let lPredicates), .equivalence(let rPredicates)):
-    return (lPredicates, rPredicates)
-  case (.materialImplication(let lPredicates), .materialImplication(let rPredicates)):
-    return (lPredicates, rPredicates)
+  case (.conjunction(let p, let q), .conjunction(let r, let s)),
+       (.disjunction(let p, let q), .disjunction(let r, let s)),
+       (.exclusiveDisjunction(let p, let q), .exclusiveDisjunction(let r, let s)),
+       (.equivalence(let p, let q), .equivalence(let r, let s)),
+       (.materialImplication(let p, let q), .materialImplication(let r, let s)):
+    return ((p, q), (r, s))
   default:
     return nil
   }
