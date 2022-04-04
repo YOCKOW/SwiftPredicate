@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.6
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -32,5 +32,8 @@ if ProcessInfo.processInfo.environment["YOCKOW_USE_LOCAL_PACKAGES"] != nil {
     let dirName = url.deletingPathExtension().lastPathComponent
     return "../\(dirName)"
   }
-  package.dependencies = package.dependencies.map { .package(path: localPath(with: $0.url)) }
+  package.dependencies = package.dependencies.map {
+    guard case .sourceControl(_, let location, _) = $0.kind else { fatalError("Unexpected dependency.") }
+    return .package(path: localPath(with: location))
+  }
 }
