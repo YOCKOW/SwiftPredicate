@@ -5,7 +5,7 @@ with this library.
 
 # Requirements
 
-- Swift 5 (Also OK is compatibility mode for Swift 4 or 4.2)
+- Swift 5, 6 (Also OK is language mode for Swift 4 or 4.2)
 - macOS or Linux
 
 ## Dependency
